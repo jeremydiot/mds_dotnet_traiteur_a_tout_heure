@@ -27,7 +27,7 @@ public class PutIngredient
 public static class RecipeService
 {
 
-  static string RECIPE_API_URL = "http://localhost:5001/recipe/";
+  static string RECIPE_API_URL = (Environment.GetEnvironmentVariable("API_RECIPE_URL") ?? "http://localhost:5001/") + "recipe/";
   static HttpClient recipeApiClient = new HttpClient();
   static List<Recipe> cache = new List<Recipe>();
   static bool isInitialized = false;
@@ -66,7 +66,7 @@ public static class RecipeService
 
 public static class IngredientService
 {
-  static string INGREDIENT_API_URL = "http://localhost:5000/ingredient/";
+  static string INGREDIENT_API_URL = (Environment.GetEnvironmentVariable("API_STOCK_URL") ?? "http://localhost:5000/") + "ingredient/";
   static HttpClient stockApiClient = new HttpClient();
   static List<Ingredient> cache = new List<Ingredient>();
   static bool isInitialized = false;

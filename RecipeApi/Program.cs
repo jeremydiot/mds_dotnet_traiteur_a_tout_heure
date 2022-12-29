@@ -18,4 +18,4 @@ app.MapGet("/recipe/{id}", async (int id, RecipeDbContext db) =>
   return Results.Ok(recipe);
 });
 
-app.Run("http://localhost:5001/");
+app.Run(Environment.GetEnvironmentVariable("API_RECIPE_URL") ?? "http://localhost:5001/");

@@ -92,4 +92,4 @@ app.MapPost("/order", async (Order order, OrderDbContext db) =>
   return Results.Ok(order);
 });
 
-app.Run("http://localhost:5002/");
+app.Run(Environment.GetEnvironmentVariable("API_ORDER_URL") ?? "http://localhost:5002/");

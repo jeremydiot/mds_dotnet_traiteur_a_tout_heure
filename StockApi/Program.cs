@@ -36,4 +36,4 @@ app.MapPut("/ingredient/{id}", async (int id, PutIngredient inputIngredient, Sto
   return Results.Ok(ingredient);
 });
 
-app.Run("http://localhost:5000/");
+app.Run(Environment.GetEnvironmentVariable("API_STOCK_URL") ?? "http://localhost:5000/");

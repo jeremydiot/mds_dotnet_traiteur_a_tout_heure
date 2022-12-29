@@ -1,0 +1,28 @@
+version: '3'
+services:
+  stock:
+    image: stockapi
+    build: StockApi/
+    hostname: stock
+    env_file:
+      - .env
+    ports:
+      - 5000:80
+
+  recipe:
+    image: recipeapi
+    build: RecipeApi/
+    hostname: recipe
+    env_file:
+      - .env
+    ports:
+      - 5001:80
+
+  order:
+    image: orderapi
+    build: OrderApi/
+    hostname: order
+    env_file:
+      - .env
+    ports:
+      - 5002:80
