@@ -1,3 +1,7 @@
+// #################################
+// Tables structures and data models
+// #################################
+
 public class Ingredient
 {
   public int Id { get; set; }

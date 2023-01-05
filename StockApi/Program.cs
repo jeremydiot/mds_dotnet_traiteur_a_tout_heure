@@ -1,16 +1,26 @@
 using Microsoft.EntityFrameworkCore;
 
+// #############
+// init database
+// #############
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<StockDbContext>(opt => opt.UseInMemoryDatabase("StockDb"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 var app = builder.Build();
 
-// add fixtures
+// ########################
+// add fixtures to database
+// ########################
+
 var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<StockDbContext>();
 DbInitializer.Initialize(context);
 
+// ######
+// Routes
+// ######
 
+// get ingredient
 app.MapGet("/ingredient/{id}", async (int id, StockDbContext db) =>
  await db.Ingredients.FindAsync(id)
   is Ingredient ingredient
@@ -18,6 +28,7 @@ app.MapGet("/ingredient/{id}", async (int id, StockDbContext db) =>
     : Results.NotFound());
 
 
+// update ingredient quantity
 app.MapPut("/ingredient/{id}", async (int id, PutIngredient inputIngredient, StockDbContext db) =>
 {
   var ingredient = await db.Ingredients.FindAsync(id);
@@ -35,5 +46,9 @@ app.MapPut("/ingredient/{id}", async (int id, PutIngredient inputIngredient, Sto
   await db.SaveChangesAsync();
   return Results.Ok(ingredient);
 });
+
+// #################
+// Start http server
+// #################
 
 app.Run(Environment.GetEnvironmentVariable("API_STOCK_URL") ?? "http://localhost:5000/");

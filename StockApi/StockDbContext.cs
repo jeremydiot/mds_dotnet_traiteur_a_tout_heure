@@ -1,3 +1,7 @@
+// ######################
+// Define database tables
+// ######################
+
 using Microsoft.EntityFrameworkCore;
 
 public class StockDbContext : DbContext

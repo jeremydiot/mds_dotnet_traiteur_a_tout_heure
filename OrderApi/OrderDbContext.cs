@@ -1,3 +1,7 @@
+// ######################
+// Define database tables
+// ######################
+
 using Microsoft.EntityFrameworkCore;
 
 public class OrderDbContext : DbContext
@@ -8,6 +12,7 @@ public class OrderDbContext : DbContext
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
+    // foreign key relation between order and client
     modelBuilder.Entity<Client>().HasMany(c => c.Orders).WithOne().HasForeignKey(o => o.ClientId);
   }
 }

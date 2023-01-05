@@ -1,6 +1,9 @@
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 
+// ####################################
+// Interaction services with other APIs
+// ####################################
 
 public class Recipe
 {
@@ -24,6 +27,10 @@ public class PutIngredient
   public int Quantity { get; set; }
 }
 
+// ##################
+// Recipe API service
+// ##################
+
 public static class RecipeService
 {
 
@@ -40,11 +47,13 @@ public static class RecipeService
     recipeApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
   }
 
+  // purge cache
   public static void Purge()
   {
     cache = new List<Recipe>();
   }
 
+  // get recipe
   public static async Task<Recipe?> Get(int recipeId)
   {
     if (!isInitialized) Init();
@@ -64,6 +73,11 @@ public static class RecipeService
   }
 }
 
+
+// #################
+// Stock API service
+// #################
+
 public static class IngredientService
 {
   static string INGREDIENT_API_URL = (Environment.GetEnvironmentVariable("API_STOCK_URL") ?? "http://localhost:5000/") + "ingredient/";
@@ -79,11 +93,13 @@ public static class IngredientService
     stockApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
   }
 
+  // purge cache
   public static void Purge()
   {
     cache = new List<Ingredient>();
   }
 
+  // get ingredient
   public static async Task<Ingredient?> Get(int ingredientId)
   {
     if (!isInitialized) Init();
@@ -103,6 +119,7 @@ public static class IngredientService
     return null;
   }
 
+  // remove ingredient
   public static async Task<Ingredient?> RemoveQuantity(int ingredientId, int quantity)
   {
     if (!isInitialized) Init();

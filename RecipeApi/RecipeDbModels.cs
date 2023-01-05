@@ -1,3 +1,7 @@
+// #################################
+// Tables structures and data models
+// #################################
+
 public class Recipe
 {
   public int Id { get; set; }

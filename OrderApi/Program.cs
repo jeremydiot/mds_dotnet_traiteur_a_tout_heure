@@ -1,15 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 
+// #############
+// init database
+// #############
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<OrderDbContext>(opt => opt.UseInMemoryDatabase("OrderDb"));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 var app = builder.Build();
 
-// add fixtures
+// ########################
+// add fixtures to database
+// ########################
+
 var orderContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<OrderDbContext>();
 DbInitializer.Initialize(orderContext);
 
+
+// ######
+// Routes
+// ######
+
+// get client
 app.MapGet("/client/{id}", async (int id, OrderDbContext db) =>
 {
   var client = await db.Clients.Include(c => c.Orders).FirstOrDefaultAsync(c => c.Id == id);
@@ -18,6 +30,7 @@ app.MapGet("/client/{id}", async (int id, OrderDbContext db) =>
   return Results.Ok(client);
 });
 
+// get order
 app.MapGet("/order/{id}", async (int id, OrderDbContext db) =>
 {
   var order = await db.Orders.FirstOrDefaultAsync(o => o.Id == id);
@@ -25,6 +38,7 @@ app.MapGet("/order/{id}", async (int id, OrderDbContext db) =>
   return Results.Ok(order);
 });
 
+// add client order
 app.MapPost("/order", async (Order order, OrderDbContext db) =>
 {
 
@@ -91,5 +105,9 @@ app.MapPost("/order", async (Order order, OrderDbContext db) =>
   await db.SaveChangesAsync();
   return Results.Ok(order);
 });
+
+// #################
+// Start http server
+// #################
 
 app.Run(Environment.GetEnvironmentVariable("API_ORDER_URL") ?? "http://localhost:5002/");

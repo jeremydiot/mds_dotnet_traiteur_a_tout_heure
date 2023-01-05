@@ -1,3 +1,7 @@
+// #################
+// Database fixtures
+// #################
+
 public static class DbInitializer
 {
   public static void Initialize(OrderDbContext context)
